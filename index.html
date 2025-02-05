@@ -130,4 +130,60 @@
       const maxY = containerRect.height - noButton.offsetHeight;
       const randomX = Math.random() * maxX;
       const randomY = Math.random() * maxY;
-      noB
+      noButton.style.left = randomX + 'px';
+      noButton.style.top = randomY + 'px';
+    }
+    
+    // Initially position the "No" button.
+    positionNoButton();
+    
+    // Reposition the "No" button on hover (desktop)
+    document.getElementById('no').addEventListener('mouseover', positionNoButton);
+    
+    // Also reposition on touch for mobile devices.
+    document.getElementById('no').addEventListener('touchstart', function(e) {
+      e.preventDefault();
+      positionNoButton();
+    });
+    
+    // Define the function to handle the "Yes" button action.
+    function yesAction() {
+      document.getElementById('question').style.display = 'none';
+      document.getElementById('yes').style.display = 'none';
+      document.getElementById('no').style.display = 'none';
+      document.getElementById('message').style.display = 'block';
+      
+      // Launch confetti for 5 seconds.
+      const duration = 5 * 1000;
+      const end = Date.now() + duration;
+      (function frame() {
+        confetti({
+          particleCount: 3,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 }
+        });
+        confetti({
+          particleCount: 3,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 }
+        });
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      }());
+    }
+    
+    // Handle the "Yes" button click (desktop)
+    document.getElementById('yes').addEventListener('click', yesAction);
+    
+    // Also handle the "Yes" button touch event (mobile)
+    document.getElementById('yes').addEventListener('touchend', function(e) {
+      e.preventDefault();
+      yesAction();
+    });
+  </script>
+</body>
+</html>
+
